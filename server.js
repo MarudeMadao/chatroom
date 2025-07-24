@@ -7,7 +7,7 @@ var path = require('path');
 
 //アドオンのmimeモジュール
 //ファイル拡張子に基づいてMIMEタイプを取得するために使用
-var mime = require('mime');
+var mime = require('mime/lite');
 
 //cacheオブフェクトにはファイルの内容が格納される
 var cache = {};
@@ -27,28 +27,25 @@ function sendFile(response, filePath, fileContents) {
     response.end(fileContents);
 }
 
-function serveStatic(response,absPath) {
+function serveStatic(response, absPath) {
     //キャッシュにファイルが存在するか確認
     if (cache[absPath]) {
-        //キャッシュに存在する場合は、キャッシュからファイルを送信
         sendFile(response, absPath, cache[absPath]);
     } else {
         //キャッシュに存在しない場合は、ファイルシステムから読み込む
-        fs.exists(absPath, function(exists) {
-            if (exists) {
-                //ファイルが存在する場合は、読み込み
+        // fs.existsの代わりにfs.accessを使います
+        fs.access(absPath, fs.constants.F_OK, (err) => {
+            if (err) {
+                send404(response); // ファイルが存在しない
+            } else {
                 fs.readFile(absPath, function(err, data) {
                     if (err) {
                         send404(response);
                     } else {
-                        //読み込んだデータをキャッシュに保存し、送信
                         cache[absPath] = data;
                         sendFile(response, absPath, data);
                     }
                 });
-            } else {
-                //ファイルが存在しない場合は404エラーを送信
-                send404(response);
             }
         });
     }

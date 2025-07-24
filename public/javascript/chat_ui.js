@@ -72,9 +72,14 @@ $(document).ready(function() {
         socket.emit('rooms');
     }, 1000);
 
+    // メッセージ入力欄にフォーカスを当てる
     $('#send-message').focus();
-    $('#send-message').submit(function() {
+
+    // <form>要素のsubmitイベントを捕捉する
+    $('#sent-form').submit(function(e) {
+        // フォームのデフォルトの送信動作を確実に防ぐ
+        e.preventDefault(); 
         processUserInput(chatApp, socket);
-        return false; //フォームの送信を防ぐ
+        // return false; // e.preventDefault()があれば、これは必須ではありません
     });
 });
