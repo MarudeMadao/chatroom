@@ -9,7 +9,7 @@ function divSystemContentElement(message) {
 //ユーザ入力の処理
 function processUserInput(chatApp, socket) {
     var message = $('#send-message').val();
-    var systemMassage;
+    var systemMeSssage;
 
     //スラッシュで始まるメッセージはコマンドとみなす
     if (message.charAt(0) == '/') {
@@ -80,6 +80,6 @@ $(document).ready(function() {
         // フォームのデフォルトの送信動作を確実に防ぐ
         e.preventDefault(); 
         processUserInput(chatApp, socket);
-        // return false; // e.preventDefault()があれば、これは必須ではありません
+        // return false;
     });
 });
