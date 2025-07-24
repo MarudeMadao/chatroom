@@ -1,0 +1,8 @@
+# node_modulesフォルダを無視する
+/node_modules
+
+# 環境変数を書く.envファイルを無視する
+.env
+
+# macOS固有のファイルを無視する
+.DS_Store
