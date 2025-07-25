@@ -9,7 +9,7 @@ function divSystemContentElement(message) {
 //ユーザ入力の処理
 function processUserInput(chatApp, socket) {
     var message = $('#send-message').val();
-    var systemMeSssage;
+    var systemMessage;
 
     //スラッシュで始まるメッセージはコマンドとみなす
     if (message.charAt(0) == '/') {
@@ -55,9 +55,8 @@ $(document).ready(function() {
 
     socket.on('rooms', function(rooms) {
         $('#room-list').empty();
-        for (var room in rooms) {
-            room = room.substring(1, room.length);
-            if (room != '') {
+        for (const room of rooms) {
+            if (room) {
                 $('#room-list').append(divEscapedContentElement(room));
             }
         }
